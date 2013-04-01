@@ -20,7 +20,7 @@
    <string>LITTPlanV2</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../qSlicerLITTPlanV2Module.qrc">
+   <iconset>
     <normaloff>:/Icons/LITTPlanV2.png</normaloff>:/Icons/LITTPlanV2.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -36,7 +36,7 @@
       <string>Main</string>
      </property>
      <property name="collapsed">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="contentsLineWidth">
       <number>0</number>
@@ -536,9 +536,6 @@
         <property name="headerHidden">
          <bool>true</bool>
         </property>
-        <property name="listenNodeModifiedEvent">
-         <bool>true</bool>
-        </property>
         <property name="nodeTypes">
          <stringlist>
           <string>vtkMRMLTransformableNode</string>
@@ -580,9 +577,6 @@
          <enum>QAbstractItemView::ExtendedSelection</enum>
         </property>
         <property name="headerHidden">
-         <bool>true</bool>
-        </property>
-        <property name="listenNodeModifiedEvent">
          <bool>true</bool>
         </property>
         <property name="fitSizeToVisibleIndexes">
@@ -867,9 +861,7 @@
    <header>ctkMatrixWidget.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../qSlicerLITTPlanV2Module.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>qSlicerLITTPlanV2Module</sender>
