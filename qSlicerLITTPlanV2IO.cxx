@@ -77,7 +77,7 @@ QString qSlicerLITTPlanV2IO::description()const
 //-----------------------------------------------------------------------------
 qSlicerIO::IOFileType qSlicerLITTPlanV2IO::fileType()const
 {
-  return qSlicerIO::TransformFile;
+  return QString("TransformFile");
 }
 
 //-----------------------------------------------------------------------------

@@ -297,7 +297,7 @@ void qSlicerLITTPlanV2ModuleWidget::LoadLabelMap()
     //parameters["center"] = true;
     parameters["discardOrientation"] = true;
 
-    qSlicerCoreApplication::application()->coreIOManager()->loadNodes(qSlicerIO::VolumeFile, parameters);
+    qSlicerCoreApplication::application()->coreIOManager()->loadNodes(QString("VolumeFile"), parameters);
 
 }
 //-----------------------------------------------------------------------------
@@ -1184,7 +1184,7 @@ void qSlicerLITTPlanV2ModuleWidget::onBtnApplicatorClicked()
 	this->mrmlScene()->AddNode(modelDisplayNode);
 	modelNode->SetAndObserveDisplayNodeID(modelDisplayNode->GetID());
 
-	modelDisplayNode->SetPolyData(modelNode->GetPolyData());
+	modelDisplayNode->SetInputPolyData(modelNode->GetPolyData());
 	this->mrmlScene()->AddNode(modelNode);
 
 	transformNode->Delete();

@@ -3,11 +3,18 @@ LITTPlan
 
 LITT plan module for Slicer 4
 
+
+## tags
+	ctags -R --langmap=c++:+.txx --langmap=c++:+.cl /Users/fuentes/MyProjects/CTAGS/ctags-5.8/ctags -R --langmap=c++:+.txx --langmap=c++:+.cl /Users/fuentes/MyProjects/Slicer4-SuperBuild-Debug/ /Users/fuentes/MyProjects/Slicer4 .
+
 ## Module Build Instructions
 
-$ mkdir LITTPlan-build; cd LITTPlan-build
-$ cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DSlicer_DIR:PATH=/Users/fuentes/MyProjects/Slicer4-SuperBuild-Debug/Slicer-build ../LITTPlan
+	$ mkdir LITTPlan-build; cd LITTPlan-build
+	$ cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DSlicer_DIR:PATH=/Users/fuentes/MyProjects/Slicer4-SuperBuild-Debug/Slicer-build ../LITTPlan
 
+ * add Path Module Path
+	Edit -> Application Settings -> Modules
+	LITTPlan-build/lib/Slicer-4.3/qt-loadable-modules/
 
 ## Build Instructions
 
