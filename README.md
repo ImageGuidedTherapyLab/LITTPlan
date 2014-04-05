@@ -3,19 +3,25 @@ LITTPlan
 
 LITT plan module for Slicer 4
 
+## Module Build Instructions
+
+$ mkdir LITTPlan-build; cd LITTPlan-build
+$ cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DSlicer_DIR:PATH=/Users/fuentes/MyProjects/Slicer4-SuperBuild-Debug/Slicer-build ../LITTPlan
+
+
 ## Build Instructions
 
  * http://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Developers/Build_Instructions
  * https://www.slicer.org/slicerWiki/index.php/Documentation/4.1/Developers/Build_Module
 
-## Mac Version
+### Mac Version
 
 	$ uname -a
 	Darwin Einstein.local 12.5.0 Darwin Kernel Version 12.5.0: Mon Jul 29 16:33:49 PDT 2013; root:xnu-2050.48.11~1/RELEASE_X86_64 x86_64
 	$ sw_vers | grep 'ProductVersion:'
 	ProductVersion: 10.8.5
 
-## download dependencies
+### download dependencies
 
 	$ ll SlicerBuildDownloads/
 	total 5298848
@@ -38,7 +44,7 @@ LITT plan module for Slicer 4
 	$ xcode-select --version
 	xcode-select version 2311.
 
-## configure
+### configure
 	$svn co http://svn.slicer.org/Slicer4/trunk Slicer4
 	$ svn info Slicer4
 	URL: http://svn.slicer.org/Slicer4/trunk
