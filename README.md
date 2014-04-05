@@ -51,8 +51,10 @@ LITT plan module for Slicer 4
 	Last Changed Rev: 23047
 	Last Changed Date: 2014-04-04 17:34:32 -0500 (Fri, 04 Apr 2014)
 
-        mkdir Slicer4-SuperBuild-Debug/; cd Slicer4-SuperBuild-Debug/
+	mkdir Slicer4-SuperBuild-Debug/; cd Slicer4-SuperBuild-Debug/
 	cmake -DCMAKE_OSX_DEPLOYMENT_TARGET=10.8 -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk -DSlicer_USE_PYTHONQT_WITH_TCL:BOOL=OFF  -DCMAKE_INSTALL_PREFIX=/Users/fuentes/MyProjects/Slicer4-Install ../Slicer4
+
+ - manually remove VTK_OBJCXX_FLAGS_DEFAULT  
 
 	$ vim VTK/CMakeLists.txt 
 	22,26c22,26
