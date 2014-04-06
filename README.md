@@ -12,7 +12,8 @@ LITT plan module for Slicer 4
 	$ mkdir LITTPlan-build; cd LITTPlan-build
 	$ cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DSlicer_DIR:PATH=/Users/fuentes/MyProjects/Slicer4-SuperBuild-Debug/Slicer-build ../LITTPlan
 
- * add Path Module Path
+ * add Module to Path
+
 	Edit -> Application Settings -> Modules
 	LITTPlan-build/lib/Slicer-4.3/qt-loadable-modules/
 

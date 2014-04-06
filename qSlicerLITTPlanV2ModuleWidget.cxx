@@ -44,6 +44,7 @@
 #include "vtkMRMLFiducial.h"
 #include "vtkMRMLFiducialListNode.h"
 #include "vtkMRMLFiducialListStorageNode.h"
+#include "vtkMRMLMarkupsFiducialNode.h"
 #include "vtkMRMLLinearTransformNode.h"
 #include "vtkMRMLScene.h"
 #include "vtkMRMLDisplayNode.h"
@@ -293,6 +294,7 @@ void qSlicerLITTPlanV2ModuleWidget::LoadLabelMap()
     // Read the labelmap segmentation
     qSlicerIO::IOProperties parameters;
     parameters["fileName"] = QString(d_ptr->segFolder->text());
+    qDebug() << "LITTPlan loading: " << parameters["fileName"];
     parameters["labelmap"] = true;
     //parameters["center"] = true;
     parameters["discardOrientation"] = true;
@@ -503,33 +505,46 @@ void qSlicerLITTPlanV2ModuleWidget::LoadApplicator()
 	//modelDisplayNode->Delete();	    
 
 	std::vector<vtkMRMLNode*> nodes;	
-	this->mrmlScene()->GetNodesByClass("vtkMRMLAnnotationHierarchyNode", nodes);
+	this->mrmlScene()->GetNodesByClass("vtkMRMLMarkupsFiducialNode", nodes);
+        qDebug() << "LITTPlan: nodes size" << nodes.size();
+        // FIXME - always use the first node list ??
+	vtkSmartPointer<vtkMRMLMarkupsFiducialNode> markupnode = vtkMRMLMarkupsFiducialNode::SafeDownCast(nodes[0]);
+        qDebug() << "LITTPlan: # fiducial " << markupnode->GetNumberOfFiducials();
 				
-	if (nodes.size() < 2 || d_ptr->inputFiducialsNodeSelector->currentNode() == 0) // At least 2 nodes must exist(fiducials to create path)
+	for (unsigned int i=0; i<markupnode->GetNumberOfFiducials(); i++)
+	{			
+           double coord[3];
+           markupnode->GetNthFiducialPosition(i, coord);
+           qDebug() << "LITTPlan: fiducial " << i << " " << coord[0]<< " " << coord[1] << " " << coord[2];
+        }
+
+	if (markupnode->GetNumberOfFiducials() < 2 )
 	{
+                qDebug() << "At least 2 nodes must exist (fiducials to create path) " ;
 		nodes.clear(); 
-		return;
 	}
 
-	for (unsigned int i=0; i<nodes.size(); i++)
-	{			
-		vtkSmartPointer<vtkCollection> cnodes=vtkSmartPointer<vtkCollection>::New();
-		vtkMRMLAnnotationHierarchyNode::SafeDownCast(nodes[i])->GetDirectChildren(cnodes);
-		
-		if (cnodes->GetNumberOfItems() > 1 && vtkMRMLAnnotationFiducialNode::SafeDownCast(cnodes->GetItemAsObject(0)) != NULL 
-			&& vtkMRMLAnnotationFiducialNode::SafeDownCast(cnodes->GetItemAsObject(1)) != NULL) // There are at least two fiducial child nodes
-		{
-			fnode0 = vtkMRMLAnnotationFiducialNode::SafeDownCast(cnodes->GetItemAsObject(0));
-			fnode1 = vtkMRMLAnnotationFiducialNode::SafeDownCast(cnodes->GetItemAsObject(1));
+//	for (unsigned int i=0; i<nodes.size(); i++)
+//	{			
+//		vtkSmartPointer<vtkCollection> cnodes=vtkSmartPointer<vtkCollection>::New();
+//		vtkMRMLAnnotationHierarchyNode::SafeDownCast(nodes[i])->GetDirectChildren(cnodes);
+//		
+//		if (cnodes->GetNumberOfItems() > 1 && vtkMRMLAnnotationFiducialNode::SafeDownCast(cnodes->GetItemAsObject(0)) != NULL 
+//			&& vtkMRMLAnnotationFiducialNode::SafeDownCast(cnodes->GetItemAsObject(1)) != NULL) // There are at least two fiducial child nodes
+//		{
+//			fnode0 = vtkMRMLAnnotationFiducialNode::SafeDownCast(cnodes->GetItemAsObject(0));
+//			fnode1 = vtkMRMLAnnotationFiducialNode::SafeDownCast(cnodes->GetItemAsObject(1));
 
-			if(fnode0->GetFiducialCoordinates(startPoint) && fnode1->GetFiducialCoordinates(targetPoint))
-			{
-				CallBack1->SetCallback(qSlicerLITTPlanV2ModuleWidget::OnFiducial1Moved);
-				CallBack2->SetCallback(qSlicerLITTPlanV2ModuleWidget::OnFiducial2Moved);
-
-				fnode0->AddObserver(fnode0->ControlPointModifiedEvent, CallBack1);
-				fnode1->AddObserver(fnode1->ControlPointModifiedEvent, CallBack2);
-
+               markupnode->GetNthFiducialPosition(0, startPoint);
+               markupnode->GetNthFiducialPosition(1, targetPoint);
+//			if(fnode0->GetFiducialCoordinates(startPoint) && fnode1->GetFiducialCoordinates(targetPoint))
+//			{
+//				CallBack1->SetCallback(qSlicerLITTPlanV2ModuleWidget::OnFiducial1Moved);
+//				CallBack2->SetCallback(qSlicerLITTPlanV2ModuleWidget::OnFiducial2Moved);
+//
+//				fnode0->AddObserver(fnode0->ControlPointModifiedEvent, CallBack1);
+//				fnode1->AddObserver(fnode1->ControlPointModifiedEvent, CallBack2);
+//
 				std::vector<vtkMRMLNode*> modelNodes;
 				this->mrmlScene()->GetNodesByClass("vtkMRMLModelNode", modelNodes);
 				
@@ -646,9 +661,9 @@ void qSlicerLITTPlanV2ModuleWidget::LoadApplicator()
                     this->mrmlScene()->AddNode(modelNode2);
 				}
 				modelNodes.clear();
-			}
-		}
-	}	
+//			}
+//		}
+//	}	
 	nodes.clear();	
 }
 //-----------------------------------------------------------------------------
