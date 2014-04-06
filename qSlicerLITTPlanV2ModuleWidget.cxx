@@ -297,7 +297,7 @@ void qSlicerLITTPlanV2ModuleWidget::LoadLabelMap()
     qDebug() << "LITTPlan loading: " << parameters["fileName"];
     parameters["labelmap"] = true;
     //parameters["center"] = true;
-    parameters["discardOrientation"] = true;
+    //parameters["discardOrientation"] = true;
 
     qSlicerCoreApplication::application()->coreIOManager()->loadNodes(QString("VolumeFile"), parameters);
 
@@ -310,6 +310,7 @@ void qSlicerLITTPlanV2ModuleWidget::CreatePath()
 				
 	if (nodes.size() < 2 || d_ptr->inputFiducialsNodeSelector->currentNode() == 0) // At least 2 nodes must exist(fiducials to create path)
 	{
+                qDebug() << "At least 2 nodes must exist (fiducials to create path) " ;
 		nodes.clear(); 
 		return;
 	}
@@ -504,11 +505,20 @@ void qSlicerLITTPlanV2ModuleWidget::LoadApplicator()
 	//modelNode->Delete();
 	//modelDisplayNode->Delete();	    
 
-	std::vector<vtkMRMLNode*> nodes;	
-	this->mrmlScene()->GetNodesByClass("vtkMRMLMarkupsFiducialNode", nodes);
-        qDebug() << "LITTPlan: nodes size" << nodes.size();
-        // FIXME - always use the first node list ??
-	vtkSmartPointer<vtkMRMLMarkupsFiducialNode> markupnode = vtkMRMLMarkupsFiducialNode::SafeDownCast(nodes[0]);
+        // ensure a node is selected
+	if ( d_ptr->inputFiducialsNodeSelector->currentNode() == 0 ) 
+	{
+                qDebug() << "no node selected " ;
+                return;
+	}
+
+	//std::vector<vtkMRMLNode*> nodes;	
+	//this->mrmlScene()->GetNodesByClass("vtkMRMLMarkupsFiducialNode", nodes);
+        //qDebug() << "LITTPlan: nodes size" << nodes.size();
+        // use the selected node 
+	vtkSmartPointer<vtkMRMLMarkupsFiducialNode> markupnode = 
+                        vtkMRMLMarkupsFiducialNode::SafeDownCast( d_ptr->inputFiducialsNodeSelector->currentNode() );
+            
         qDebug() << "LITTPlan: # fiducial " << markupnode->GetNumberOfFiducials();
 				
 	for (unsigned int i=0; i<markupnode->GetNumberOfFiducials(); i++)
@@ -518,10 +528,10 @@ void qSlicerLITTPlanV2ModuleWidget::LoadApplicator()
            qDebug() << "LITTPlan: fiducial " << i << " " << coord[0]<< " " << coord[1] << " " << coord[2];
         }
 
-	if (markupnode->GetNumberOfFiducials() < 2 )
+	if (markupnode->GetNumberOfFiducials() < 2 ) 
 	{
                 qDebug() << "At least 2 nodes must exist (fiducials to create path) " ;
-		nodes.clear(); 
+                return;
 	}
 
 //	for (unsigned int i=0; i<nodes.size(); i++)
@@ -664,7 +674,7 @@ void qSlicerLITTPlanV2ModuleWidget::LoadApplicator()
 //			}
 //		}
 //	}	
-	nodes.clear();	
+//	nodes.clear();	
 }
 //-----------------------------------------------------------------------------
 void qSlicerLITTPlanV2ModuleWidget::CreateSphereAtTarget()

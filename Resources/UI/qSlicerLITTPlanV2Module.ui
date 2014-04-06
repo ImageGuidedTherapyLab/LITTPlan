@@ -55,6 +55,7 @@
          <widget class="qMRMLNodeComboBox" name="inputFiducialsNodeSelector">
           <property name="nodeTypes">
            <stringlist>
+            <string>vtkMRMLMarkupsFiducialNode</string>
             <string>vtkMRMLFiducialListNode</string>
             <string>vtkMRMLAnnotationHierarchyNode</string>
            </stringlist>
