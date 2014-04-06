@@ -83,3 +83,11 @@ LITT plan module for Slicer 4
 	>       SET(VTK_OBJCXX_FLAGS_DEFAULT "-fobjc-gc")
 	>     ENDIF(${OSX_SDK_VERSION} VERSION_GREATER "10.4")
 	>   ENDIF(OSX_SDK_VERSION)
+
+ - install cython
+
+	cd Slicer4-SuperBuild-Debug/
+	curl -O http://cython.org/release/Cython-0.16.tar.gz
+	tar -xvf Cython-0.16.tar.gz
+	cd Cython-0.16
+ 	../python-install/bin/customPython setup.py install
